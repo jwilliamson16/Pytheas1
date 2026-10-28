@@ -13,6 +13,8 @@ input generated with the final report file
 
 import os, sys
 import pandas as pd
+
+from .._compat import merge_outer_v1
 import numpy as np
 from Bio import SeqIO
 import ntpath
@@ -60,7 +62,7 @@ class Mapping:
         with open(fasta_file.rstrip(), 'r') as handle:
             for seq in SeqIO.parse(handle, "fasta"):  # Extract and process the sequences within fasta files
 
-                sequence = str(seq.seq.ungap("-"))
+                sequence = str(seq.seq).replace("-", "")
                 seq_output[str(seq.id)] = list(sequence)
 
         # Create dataframes with the sequences
@@ -114,7 +116,7 @@ class Mapping:
         """
         series, nts_dic = self.group_df(), self.read_excel_input()
         d = {}
-        for index, row in series.iteritems():
+        for index, row in series.items():
 
             # decoy lines are not considered for mapping purposes
             if 'decoy' not in index:
@@ -193,7 +195,7 @@ class Mapping:
         for seq in seq_dict.keys():
 
             if seq in match_dict.keys():
-                df_out = pd.merge(seq_dict[seq], match_dict[seq], how='outer')
+                df_out = merge_outer_v1(seq_dict[seq], match_dict[seq])  # pandas>=2.2 reorders outer merges
 
                 # Drop columns and rows with redundant or not useful info
                 df_out = df_out.drop(columns=['index'])

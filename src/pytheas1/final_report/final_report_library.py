@@ -16,6 +16,8 @@ Additional information on the output file and the parameters can be found in the
 
 import os, sys
 import pandas as pd
+
+from .._compat import merge_outer_v1
 import ntpath
 
 
@@ -236,7 +238,7 @@ def compute_dSp2(df_match, df_filtered):
     dup_df = dup_df[['m/z_RT', 'dSp2']]
 
     # Add a column to the targets dataframe with the values dSp2
-    output_df = pd.merge(df_filtered, dup_df, on='m/z_RT', how='outer')
+    output_df = merge_outer_v1(df_filtered, dup_df, on='m/z_RT')  # pandas>=2.2 reorders outer merges
     output_df = output_df[['m/z', 'RT', 'MS1_offset(ppm)', 'isotopologue match', 'length',
                            "5'-end", 'sequence', "3'-end", 'charge', 'isotope', 'Rank', 'Score (Sp)',
                            'dSp', 'dSp2', 'n/L', 'sequence_mods', 'molecule ID', 'sequence_location',

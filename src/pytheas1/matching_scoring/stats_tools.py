@@ -14,10 +14,13 @@ the generation of the statistical plots in the Pytheas workflow
 import sys, os, re
 import matplotlib.pyplot as plt
 import pandas as pd
+
+from .._compat import merge_outer_v1
 import numpy as np
 import statistics
 
-np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+import warnings  # np.warnings and np.VisibleDeprecationWarning: removed/moved in numpy 2
+warnings.filterwarnings('ignore', category=np.exceptions.VisibleDeprecationWarning)
 
 
 def read_excel_input(nts_file):
@@ -61,7 +64,7 @@ def input_data(infile, excel, sumi_all):
              'isotope': [], 'molecule_location': [], 'sequence': [],
              'sequence_mods': [], 'MS1_ppm': [], 'MS2_ppm': [], 'MS2_matches': []}
 
-    with open("./" + infile, 'rU') as input_file:
+    with open("./" + infile, 'r') as input_file:
         for line in input_file:
 
             if line[0].isdigit():
@@ -72,7 +75,7 @@ def input_data(infile, excel, sumi_all):
                 else:
                     d['isotopologue'].append('')
 
-                prec_M = re.findall("[\d]+[.]?[\d]+", sp[0])[0]
+                prec_M = re.findall(r"[\d]+[.]?[\d]+", sp[0])[0]
                 d['m/z'].append(prec_M), d['length'].append(int(sp[9])), d['Sp'].append(
                     np.float64(sp[4].split('=')[1])),
                 d['dSp'].append(sp[5].split('=')[1]), d['charge'].append(sp[10]),
@@ -186,7 +189,7 @@ def filter_data(df, top, yl):
         filt_df = filt_df.sort_values(['m/z', yl], ascending=[True, False]).reset_index(drop=True)
 
         # Add a column to the targets dataframe with the values of the second best dSp
-        filt_df = pd.merge(filt_df, dup_df, on='m/z_RT', how='outer')
+        filt_df = merge_outer_v1(filt_df, dup_df, on='m/z_RT')  # pandas>=2.2 reorders outer merges
         filt_df = filt_df[
             ['m/z', 'RT', 'm/z_RT', 'Theoretical_m/z', 'isotopologue', 'length', 'sequence', 'sequence_mods',
              'rank', 'Sp', 'dSp', 'dSp2', 'MS1_ppm', 'n', 'sumI', 'sumI_all', 'L', 'n/L', 'Beta', 'charge',

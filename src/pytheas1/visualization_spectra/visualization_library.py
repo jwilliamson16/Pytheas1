@@ -16,6 +16,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
+
+from .._compat import merge_outer_v1, series_float
 import numpy as np
 import pyteomics.mgf as pymgf
 import shutil
@@ -365,11 +367,11 @@ class Visualize:
         if match[1]['MS2_match'] and np.float64(match[1]['score']) > 0:
 
             input_mgf = mgf_peaks(self.mgf_file)
-            key_mgf = re.findall("[\d]+[.]?[\d]+", match[0].split('_')[0])[0] + '_' + match[0].split('_')[1]
+            key_mgf = re.findall(r"[\d]+[.]?[\d]+", match[0].split('_')[0])[0] + '_' + match[0].split('_')[1]
 
             MS2_matches, charge, prec, mz_highest_ion = match[1]['MS2_match'], int(
                 re.findall(r'\d+', match[1]['charge'])[0]), np.float64(
-                re.findall("[\d]+[.]?[\d]+", match[0].split('_')[0])[0]), 0
+                re.findall(r"[\d]+[.]?[\d]+", match[0].split('_')[0])[0]), 0
 
             # Determines the sequence ion with highest intensity, used to scale the y axis of the spectra
             for single_ion in MS2_matches:
@@ -452,7 +454,7 @@ class Visualize:
 
             if match[1]['sequence_mod'] != '-':
                 ax.set_title(
-                    "M={}  RT={}  seq=$\it{}$-{}-$\it{}$  seq_mod=$\it{}$-{}-$\it{}$  Sp={}  dSp={}  charge={}  "
+                    r"M={}  RT={}  seq=$\mathit{{{}}}$-{}-$\mathit{{{}}}$  seq_mod=$\mathit{{{}}}$-{}-$\mathit{{{}}}$  Sp={}  dSp={}  charge={}  "
                     "molecule={}  position={}".format(
                         match[0].split('_')[0], match[0].split('_')[1], match[1]['5chemistry'], match[1]['sequence'],
                         match[1]['3chemistry'], match[1]['5chemistry'], match[1]['sequence_mod'],
@@ -461,7 +463,7 @@ class Visualize:
 
             else:
                 ax.set_title(
-                    "M={}  RT={}  seq=$\it{}$-{}-$\it{}$  Sp={}  dSp={}  charge={}  molecule={}  "
+                    r"M={}  RT={}  seq=$\mathit{{{}}}$-{}-$\mathit{{{}}}$  Sp={}  dSp={}  charge={}  molecule={}  "
                     "position={}".format(match[0].split('_')[0],
                                          match[0].split('_')[1],
                                          match[1]['5chemistry'],
@@ -549,7 +551,9 @@ class Visualize:
 
             # Add precursor ion dashed line
             prec_x = input_mgf[key_mgf].iloc[(input_mgf[key_mgf]['m/z'] - prec).abs().argsort()[:1]]['m/z']
+            prec_x = series_float(prec_x)  # one-row Series; pandas 3 no longer converts it implicitly
             prec_y = input_mgf[key_mgf].loc[input_mgf[key_mgf]['m/z'] == np.float64(prec_x), 'intensity']
+            prec_y = series_float(prec_y)
 
             plt.axvline(np.float64(prec_x), ymax=np.float64(prec_y) / y_max, color='black', linewidth=self.bars_width,
                         linestyle='-')
@@ -717,7 +721,7 @@ def round_number(x, base=25):
     Round a number to its closest integer value multiple of 25. Used to determine values for the axis
     on the spectra plots
     """
-    return int(base * round(np.float64(x) / base))
+    return int(base * round(np.float64(series_float(x)) / base))  # x may be a one-row Series
 
 
 def conv_inch(length_mm):
@@ -837,8 +841,8 @@ def mgf_peaks(input_file):
 
     # Transform the m/z and intensity data in pandas dataframe format
     for key in dic:
-        out_dic[key] = pd.DataFrame({'m/z': np.round_(dic[key]['m/z array'], decimals=6),
-                                     'intensity': np.round_(dic[key]['intensity array'], decimals=6)},
+        out_dic[key] = pd.DataFrame({'m/z': np.round(dic[key]['m/z array'], decimals=6),
+                                     'intensity': np.round(dic[key]['intensity array'], decimals=6)},
                                     dtype=np.float64)
 
     try:
@@ -870,7 +874,7 @@ def compute_dSp2(df_match, df_filtered):
     dup_df = dup_df[['m/z_RT', 'dSp2']]
 
     # Adds a column to the targets dataframe with the values dSp2
-    output_df = pd.merge(df_filtered, dup_df, on='m/z_RT', how='outer')
+    output_df = merge_outer_v1(df_filtered, dup_df, on='m/z_RT')  # pandas>=2.2 reorders outer merges
     output_df = output_df[['m/z', 'RT', 'MS1_offset(ppm)', 'length', "5'-end", 'sequence', "3'-end", 'charge',
                            'isotope', 'Rank', 'Score (Sp)', 'dSp', 'dSp2', 'n/L', 'sequence_mods', 'molecule_location']]
 

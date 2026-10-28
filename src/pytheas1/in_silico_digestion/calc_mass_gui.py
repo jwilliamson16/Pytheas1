@@ -26,7 +26,7 @@ import numpy as np
 import pandas as pd
 from shutil import move
 
-import consolidate_tools as ct
+from . import consolidate_tools as ct
 import ntpath
 import platform
 

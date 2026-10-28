@@ -12,7 +12,7 @@ Library for the generation of statistical analysis plots
 
 import os, sys
 import pandas as pd
-import stats_tools as stats
+from ..matching_scoring import stats_tools as stats
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import ntpath

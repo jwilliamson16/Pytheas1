@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytheas1"
+dynamic = ["version"]
+description = "Pytheas 1: automated analysis of RNA tandem mass spectrometry data (refreshed packaging of the published code)"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Luigi D'Ascenzo"}]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.25",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "biopython>=1.80",
+    "pyteomics>=4.5",
+    "openpyxl>=3.0",
+    "PyQt5>=5.15",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+pytheas1 = "pytheas1.cli:main"
+
+[project.urls]
+"Original repository" = "https://github.com/ldascenzo/pytheas"
+
+[tool.setuptools.dynamic]
+version = {attr = "pytheas1.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pytheas1 = ["data/*.xlsx", "data/*.txt", "data/js/*.js", "data/Charge_tables/*/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: runs the Match stage (minutes)"]

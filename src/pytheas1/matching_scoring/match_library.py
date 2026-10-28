@@ -21,7 +21,7 @@ More details about the algorithm, the scoring function and the output can be fou
 import re
 import numpy as np
 import itertools
-import stats_tools as stats
+from . import stats_tools as stats
 from datetime import datetime
 import ntpath
 
