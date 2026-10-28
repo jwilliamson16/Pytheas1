@@ -1,3 +1,149 @@
+# Pytheas 1, refreshed
+
+**Pytheas finds RNA sequences and modifications in tandem mass spectra by database search**
+(D'Ascenzo et al., *Nature Communications* 13, 2424 (2022)). It runs in six stages:
+1. in silico digestion with known modifications;
+2. MS2 matching with the Sp score;
+3. target-decoy FDR;
+4. a final report;
+5. sequence maps;
+6. annotated spectra.
+
+**This repository packages the published code from https://github.com/ldascenzo/pytheas** so
+that it installs with pip and runs on current Python, with a new desktop GUI.
+
+**The analysis is unchanged.**
+- The algorithms are the published ones. The analysis code was changed only where current
+  libraries no longer run it.
+- Each stage was checked against the original code running on its original software stack.
+- The one difference from the paper is the author's own 2022 fix to Sp scoring, which is
+  already in the upstream code.
+
+See [VALIDATION.md](VALIDATION.md).
+
+## Install
+
+You need Python 3.10 or newer. Install into a virtual environment; deleting its folder
+uninstalls it.
+
+```
+python3 -m venv ~/venvs/pytheas1
+source ~/venvs/pytheas1/bin/activate          # Windows: ~\venvs\pytheas1\Scripts\activate
+pip install pytheas1-<version>-py3-none-any.whl
+```
+
+**Getting the package:**
+- **The wheel (`.whl`)** is on this repository's Releases page.
+- **From a clone of this repository,** use `pip install .` instead. The clone is about 100 MB,
+  mostly the paper's datasets in `paper_data/`.
+
+**What gets installed:**
+- all the dependencies: numpy, pandas, matplotlib, Biopython, pyteomics, openpyxl and PyQt5;
+- the default nucleotide sheets and charge tables;
+- a `pytheas1` command.
+
+## Try it on the paper's Training_set
+
+The Releases page has `pytheas1_demo.zip`. It holds the Training_set inputs (sequences,
+modifications, charge tables, spectra) and a parameter file with the settings of the
+original README demo.
+
+**To make the same folder from a clone:**
+
+```
+mkdir demo
+cp paper_data/Training_set/{calibration_set_sequences.fasta,calibration_set.mgf,modfile_calibration_set.txt,charges_MS1_calibration.txt,charges_MS2_calibration.txt} demo/
+cp examples/training_set/pytheas1_parameters.json demo/
+```
+
+**To run it:**
+- **In the GUI:** `pytheas1 --workdir demo` opens on the folder with the settings loaded.
+  Click **Run all**.
+- **On the command line:** `pytheas1 --nogui --load_vars --workdir demo --all`.
+
+**Results:** all six stages take a few minutes. The final report lists the 137
+identifications of the paper's Training_set, with the Sp values described in
+VALIDATION.md.
+
+## Use
+
+### GUI
+
+Run `pytheas1`, or `pytheas1 --workdir FOLDER` to open it on a folder.
+- **Tabs:** there is one tab per stage, with the options, order and help text of the original
+  Gooey forms. A blank input that comes from an earlier stage shows the file it will use.
+- **Working folder:** choose one first. Settings saved there as `pytheas1_parameters.json`
+  load automatically.
+- **Buttons:** **Run** on a tab runs that stage. **Run all** runs the six in order. **Stop**
+  ends the run.
+- **GUI and command line give the same result.** A run saves the settings to
+  `pytheas1_parameters.json` and runs `pytheas1 --nogui --load_vars --workdir FOLDER
+  --<stage>`, so it also produces the same run record. Its output streams into the log, and
+  each tab shows ✓ or ✗ when its stage finishes.
+
+### Command line
+
+```
+pytheas1 --write_params my_run.json          # every setting, at its default
+pytheas1 --nogui --load_vars --params my_run.json --all
+pytheas1 --nogui --load_vars --params my_run.json --digest --match
+```
+
+**The parameter file** has one section per stage: `digest`, `match`, `stats`, `report`,
+`mapping` and `visualize`.
+- Each section lists only the settings that differ from the defaults.
+- Inputs that come from an earlier stage can be left out; they are picked up automatically.
+  Examples are the digest for Match, or the match output for the report.
+- Input files can be given by name, relative to the working folder.
+
+**Run records.** Each run writes two files to `pytheas1_runs/` in the working folder:
+- `<time>.json`, recording the settings used, the files written and the library versions;
+- `<time>.log`, the run's complete console output.
+
+`log.txt` is the original Match stage's own three-line summary.
+
+### What each option means
+
+The original program's manual is reproduced below under "Original README". It explains what
+each stage does and every option. Its installation and launch instructions are for the
+original Gooey version; for this package, use the ones above.
+
+## Status
+
+- **macOS:** tested with Python 3.12.
+- **Windows and Linux:** not yet tested. Please report problems.
+- **Tests:** `pytest` runs every stage against the original code's outputs in about five
+  minutes. `pytest -m "not slow"` takes seconds and skips Match and visualization.
+
+## Questions and bug reports
+
+Open an issue in this repository. For a bug, attach the run's `.log` and `.json` from
+`pytheas1_runs/`.
+
+Known bugs of the original program, kept for fidelity, are listed in
+[KNOWN_ISSUES.md](KNOWN_ISSUES.md). [PORTING.md](PORTING.md) lists every change made to the
+analysis code.
+
+## Credit and license
+
+Pytheas was written by Luigi D'Ascenzo (The Scripps Research Institute) and is distributed
+under the MIT License (`LICENSE`). The 2026 packaging and GUI are from the Williamson lab,
+Scripps Research.
+
+Please cite:
+
+> D'Ascenzo L., Popova A.M., Abernathy S., Sheng K., Limbach P.A., Williamson J.R. *Pytheas:
+> a software package for the automated analysis of RNA sequences and modifications via
+> tandem mass spectrometry.* Nat Commun 13, 2424 (2022).
+> https://doi.org/10.1038/s41467-022-30057-5
+
+Pytheas2 is a separate, newer program from the same group. It is available as a web service
+through Cassia LLC: https://cassiallc.com
+
+---
+
+# Original README
+
 # Pytheas installation and basic usage notes
 
 ## General notes

@@ -1,0 +1,29 @@
+{
+  "format": "pytheas1-parameters",
+  "version": 1,
+  "working_dir": ".",
+  "digest": {
+    "RNA_sequences": "calibration_set_sequences.fasta",
+    "Enzyme": "none",
+    "MS1_charges_table": "charges_MS1_calibration.txt",
+    "MS2_charges_table": "charges_MS2_calibration.txt",
+    "decoys": true,
+    "list_of_known_RNA_modifications": "modfile_calibration_set.txt",
+    "RNA_5end_chemistry": ["OH"],
+    "RNA_3end_chemistry": ["P"]
+  },
+  "match": {
+    "MS_data": "calibration_set.mgf",
+    "isotopic_species": "light"
+  },
+  "stats": {
+    "isotopic_species": "light"
+  },
+  "report": {},
+  "mapping": {
+    "RNA_sequence": "calibration_set_sequences.fasta"
+  },
+  "visualize": {
+    "MS_data": "calibration_set.mgf"
+  }
+}
