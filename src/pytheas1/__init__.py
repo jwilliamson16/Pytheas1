@@ -7,4 +7,4 @@ current Python, numpy, pandas, matplotlib and Biopython without changing its
 algorithms; see PORTING.md for every change.
 """
 
-__version__ = "1.1.0.dev0"
+__version__ = "1.1.0"

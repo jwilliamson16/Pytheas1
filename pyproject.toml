@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "pytheas1"
 dynamic = ["version"]
 description = "Pytheas 1: automated analysis of RNA tandem mass spectrometry data (refreshed packaging of the published code)"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{name = "Luigi D'Ascenzo"}]
 requires-python = ">=3.10"
 dependencies = [
@@ -27,7 +28,10 @@ test = ["pytest>=7"]
 pytheas1 = "pytheas1.cli:main"
 
 [project.urls]
+Homepage = "https://github.com/jwilliamson16/Pytheas1"
+Issues = "https://github.com/jwilliamson16/Pytheas1/issues"
 "Original repository" = "https://github.com/ldascenzo/pytheas"
+Paper = "https://doi.org/10.1038/s41467-022-30057-5"
 
 [tool.setuptools.dynamic]
 version = {attr = "pytheas1.__version__"}

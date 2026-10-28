@@ -19,7 +19,7 @@ that it installs with pip and runs on current Python, with a new desktop GUI.
 - The one difference from the paper is the author's own 2022 fix to Sp scoring, which is
   already in the upstream code.
 
-See [VALIDATION.md](VALIDATION.md).
+See [VALIDATION.md](https://github.com/jwilliamson16/Pytheas1/blob/main/VALIDATION.md).
 
 ## Install
 
@@ -29,13 +29,14 @@ uninstalls it.
 ```
 python3 -m venv ~/venvs/pytheas1
 source ~/venvs/pytheas1/bin/activate          # Windows: ~\venvs\pytheas1\Scripts\activate
-pip install pytheas1-<version>-py3-none-any.whl
+pip install pytheas1
 ```
 
-**Getting the package:**
-- **The wheel (`.whl`)** is on this repository's Releases page.
-- **From a clone of this repository,** use `pip install .` instead. The clone is about 100 MB,
-  mostly the paper's datasets in `paper_data/`.
+**Other ways to get the package:**
+- **The wheel (`.whl`)** is on the [Releases](https://github.com/jwilliamson16/Pytheas1/releases) page:
+  `pip install pytheas1-1.1.0-py3-none-any.whl`.
+- **From a clone:** `git clone https://github.com/jwilliamson16/Pytheas1.git`, then `pip install .` inside it. The clone is about
+  100 MB, mostly the paper's datasets in `paper_data/`.
 
 **What gets installed:**
 - all the dependencies: numpy, pandas, matplotlib, Biopython, pyteomics, openpyxl and PyQt5;
@@ -44,22 +45,22 @@ pip install pytheas1-<version>-py3-none-any.whl
 
 ## Try it on the paper's Training_set
 
-The Releases page has `pytheas1_demo.zip`. It holds the Training_set inputs (sequences,
-modifications, charge tables, spectra) and a parameter file with the settings of the
-original README demo.
+The [Releases](https://github.com/jwilliamson16/Pytheas1/releases) page has `pytheas1_demo.zip`. It holds the Training_set
+inputs (sequences, modifications, charge tables, spectra) and a parameter file with the
+settings of the original README demo. Unzip it to get a `pytheas1_demo` folder.
 
 **To make the same folder from a clone:**
 
 ```
-mkdir demo
-cp paper_data/Training_set/{calibration_set_sequences.fasta,calibration_set.mgf,modfile_calibration_set.txt,charges_MS1_calibration.txt,charges_MS2_calibration.txt} demo/
-cp examples/training_set/pytheas1_parameters.json demo/
+mkdir pytheas1_demo
+cp paper_data/Training_set/{calibration_set_sequences.fasta,calibration_set.mgf,modfile_calibration_set.txt,charges_MS1_calibration.txt,charges_MS2_calibration.txt} pytheas1_demo/
+cp examples/training_set/pytheas1_parameters.json pytheas1_demo/
 ```
 
 **To run it:**
-- **In the GUI:** `pytheas1 --workdir demo` opens on the folder with the settings loaded.
-  Click **Run all**.
-- **On the command line:** `pytheas1 --nogui --load_vars --workdir demo --all`.
+- **In the GUI:** `pytheas1 --workdir pytheas1_demo` opens on the folder with the settings
+  loaded. Click **Run all**.
+- **On the command line:** `pytheas1 --nogui --load_vars --workdir pytheas1_demo --all`.
 
 **Results:** all six stages take a few minutes. The final report lists the 137
 identifications of the paper's Training_set, with the Sp values described in
@@ -117,11 +118,11 @@ original Gooey version; for this package, use the ones above.
 
 ## Questions and bug reports
 
-Open an issue in this repository. For a bug, attach the run's `.log` and `.json` from
+Open an [issue](https://github.com/jwilliamson16/Pytheas1/issues). For a bug, attach the run's `.log` and `.json` from
 `pytheas1_runs/`.
 
 Known bugs of the original program, kept for fidelity, are listed in
-[KNOWN_ISSUES.md](KNOWN_ISSUES.md). [PORTING.md](PORTING.md) lists every change made to the
+[KNOWN_ISSUES.md](https://github.com/jwilliamson16/Pytheas1/blob/main/KNOWN_ISSUES.md). [PORTING.md](https://github.com/jwilliamson16/Pytheas1/blob/main/PORTING.md) lists every change made to the
 analysis code.
 
 ## Credit and license
