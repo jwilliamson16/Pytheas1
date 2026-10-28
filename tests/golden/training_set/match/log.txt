@@ -1,0 +1,3 @@
+# Peaks in mgf file 170
+# Matching precursor ions 95
+#'Productive' precursor ions (with at least one MS2 hit) 95

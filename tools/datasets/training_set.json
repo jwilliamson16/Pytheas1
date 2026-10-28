@@ -1,0 +1,56 @@
+{
+  "name": "Training_set",
+  "note": "README demo settings plus the calibration charge tables shipped in paper_data/Training_set; these reproduce the paper's 95 target ions.",
+  "seed": 0,
+  "hashseed": 0,
+  "stages": {
+    "digest": {
+      "RNA_sequences": "@PAPER/Training_set/calibration_set_sequences.fasta",
+      "Enzyme": "none", "enzyme_missed_cleavages": "0",
+      "nonspecific_cleavage_min_length": 3, "nonspecific_cleavage_max_length": 10,
+      "cleaved_RNA_5end_chemistry": ["OH"], "cleaved_RNA_3end_chemistry": ["P"],
+      "RNA_5end_chemistry": ["OH"], "RNA_3end_chemistry": ["P"],
+      "list_of_known_RNA_modifications": "@PAPER/Training_set/modfile_calibration_set.txt",
+      "Nucleotides_light": "@DATA/nts_light.xlsx", "Nucleotides_heavy": null, "decoys": true,
+      "Ion_mode": "-",
+      "MS1_charges_table": "@PAPER/Training_set/charges_MS1_calibration.txt",
+      "MS2_charges_table": "@PAPER/Training_set/charges_MS2_calibration.txt",
+      "MS1_mz_min": 400, "MS1_mz_max": 2000, "MS2_mz_min": 300, "MS2_mz_max": 2000,
+      "CID_HCD_series": ["c", "y", "a", "a-B", "w", "b", "x", "d", "z", "y-P", "z-P"],
+      "SeqX_consolidation": false, "MS1_SeqX": 0, "MS2_SeqX": 0
+    },
+    "match": {
+      "Theoretical_digest": "auto", "MS_data": "@PAPER/Training_set/calibration_set.mgf",
+      "isotopic_species": "light", "MS1_mz_minimum": 400, "MS1_mz_maximum": 2000,
+      "MS2_mz_minimum": 300, "MS2_mz_maximum": 2000, "MS1_ppm": 30, "MS2_ppm": 50,
+      "MS1_offset": 0, "MS2_offset": 0, "MS2_absolute_peak_intensity": "None",
+      "MS2_most_intense_peaks": "all", "precursor_exclusion_window": 2.0,
+      "precursor_losses_exclusion_window": 1.5, "beta": 0.075, "alpha": 0,
+      "MS2_relative_peak_intensity": 5, "isotopologue_precursor_matching": false,
+      "exclude_precursor_charge_matching": false, "FDR_isotopic_species": "all",
+      "targets_without_decoys": false
+    },
+    "stats": {
+      "Targets": "auto", "Decoys": "auto", "Match_output": "auto", "isotopic_species": "all",
+      "Sp_cutoff": 0, "sequence_lengths": "all", "targets_without_decoys": false,
+      "hide_box_graphs": false, "Sp_vs_dSp_plot": false, "Sp_length_charge_plot": false
+    },
+    "report": {
+      "Match_output": "auto", "Sp_minimum": 0, "dSp_maximum": 1, "output_decoys": false,
+      "modified_only": false, "unique_positions_only": false, "rank_maximum": 99,
+      "remove_redundant_SeqX_matches": false, "dSp2_minimum": 0, "MS1_ppm_cutoff": null
+    },
+    "mapping": {
+      "Final_report": "auto", "Nucleotides_list": "@DATA/nts_light.xlsx",
+      "RNA_sequence": "@PAPER/Training_set/calibration_set_sequences.fasta",
+      "minimum_targets_length": 3, "Sp_cutoff": 0
+    },
+    "visualize": {
+      "Theoretical_digest": "auto", "MS_data": "@PAPER/Training_set/calibration_set.mgf",
+      "Match_output": "auto", "MS2_peaks_number": "all", "spectra_mz_minimum": null,
+      "spectra_mz_maximum": null, "Sp_minimum": 0, "dSp_maximum": 1, "visualize_decoys": false,
+      "modified_only": false, "rank_maximum": 99, "unique_positions_only": false,
+      "remove_redundant_SeqX_matches": false, "dSp2_minimum": 0, "MS1_ppm_cutoff": null
+    }
+  }
+}

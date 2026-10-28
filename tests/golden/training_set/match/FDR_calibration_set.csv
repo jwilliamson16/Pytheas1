@@ -1,0 +1,5 @@
+# targets with competing decoys used for FDR,95
+# targets without competing decoys used for FDR,0
+Sequence lengths targets/decoys,all
+Sp_cutoff,top_match_targets(t),top_unique_targets,top_match_decoys(D),FDR(D/t),FDR(%)
+0,95,95,0,0,0

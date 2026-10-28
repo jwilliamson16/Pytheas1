@@ -1,0 +1,128 @@
+{
+ "name": "Ecoli_16S_Lumos_Orbi",
+ "note": "Settings from the headers of the published Digest_16S_ecoli_16_40_seqx.txt and match_output_*.txt. Nucleotide sheets: the paper's unshipped *_std sheets, reconstructed (datasets/nts/README.md). Charge tables: stage-folder defaults (QTOF_and_other_spectrometers), consistent with the published digest.",
+ "seed": 0,
+ "hashseed": 0,
+ "stages": {
+  "digest": {
+   "enzyme_missed_cleavages": "2",
+   "nonspecific_cleavage_min_length": 3,
+   "nonspecific_cleavage_max_length": 10,
+   "cleaved_RNA_5end_chemistry": [
+    "OH"
+   ],
+   "cleaved_RNA_3end_chemistry": [
+    "P"
+   ],
+   "decoys": true,
+   "Ion_mode": "-",
+   "MS1_charges_table": "@DATA/charges_MS1.txt",
+   "MS2_charges_table": "@DATA/charges_MS2.txt",
+   "CID_HCD_series": [
+    "c",
+    "y",
+    "a",
+    "a-B",
+    "w",
+    "b",
+    "x",
+    "d",
+    "z",
+    "y-P",
+    "z-P"
+   ],
+   "Enzyme": "T1",
+   "RNA_sequences": "@PAPER/Ecoli_16S/16S_ecoli.fasta",
+   "RNA_5end_chemistry": [
+    "OH",
+    "P"
+   ],
+   "RNA_3end_chemistry": [
+    "OH",
+    "P"
+   ],
+   "list_of_known_RNA_modifications": "@PAPER/Ecoli_16S/modfile_16S_paper.txt",
+   "Nucleotides_light": "@TOOLS/datasets/nts/nts_light_std_reconstructed.xlsx",
+   "Nucleotides_heavy": "@TOOLS/datasets/nts/nts_heavy_std_reconstructed.xlsx",
+   "SeqX_consolidation": true,
+   "MS1_SeqX": 16.0,
+   "MS2_SeqX": 40.0,
+   "MS1_mz_min": 400,
+   "MS1_mz_max": 2000,
+   "MS2_mz_min": 300,
+   "MS2_mz_max": 2000
+  },
+  "match": {
+   "Theoretical_digest": "auto",
+   "MS2_absolute_peak_intensity": "None",
+   "MS2_most_intense_peaks": "all",
+   "MS2_relative_peak_intensity": 5,
+   "MS1_offset": 0,
+   "MS2_offset": 0,
+   "FDR_isotopic_species": "all",
+   "exclude_precursor_charge_matching": false,
+   "targets_without_decoys": false,
+   "isotopic_species": "all",
+   "MS1_ppm": 16.0,
+   "MS2_ppm": 40.0,
+   "MS1_mz_minimum": 400,
+   "MS1_mz_maximum": 2000,
+   "MS2_mz_minimum": 300,
+   "MS2_mz_maximum": 2000,
+   "precursor_exclusion_window": 2.0,
+   "precursor_losses_exclusion_window": 1.5,
+   "beta": 0.075,
+   "alpha": 0.0,
+   "isotopologue_precursor_matching": true,
+   "MS_data": "@PAPER/Ecoli_16S/Lumos_Orbi.mgf"
+  },
+  "stats": {
+   "Targets": "auto",
+   "Decoys": "auto",
+   "Match_output": "auto",
+   "isotopic_species": "all",
+   "Sp_cutoff": 0,
+   "sequence_lengths": "all",
+   "targets_without_decoys": false,
+   "hide_box_graphs": false,
+   "Sp_vs_dSp_plot": false,
+   "Sp_length_charge_plot": false
+  },
+  "report": {
+   "Match_output": "auto",
+   "Sp_minimum": 0,
+   "dSp_maximum": 1,
+   "output_decoys": false,
+   "modified_only": false,
+   "unique_positions_only": false,
+   "rank_maximum": 99,
+   "remove_redundant_SeqX_matches": false,
+   "dSp2_minimum": 0,
+   "MS1_ppm_cutoff": null
+  },
+  "mapping": {
+   "Final_report": "auto",
+   "Nucleotides_list": "@TOOLS/datasets/nts/nts_light_std_reconstructed.xlsx",
+   "RNA_sequence": "@PAPER/Ecoli_16S/16S_ecoli.fasta",
+   "minimum_targets_length": 3,
+   "Sp_cutoff": 0
+  },
+  "visualize": {
+   "Theoretical_digest": "auto",
+   "MS_data": "@PAPER/Ecoli_16S/Lumos_Orbi.mgf",
+   "Match_output": "auto",
+   "MS2_peaks_number": "all",
+   "spectra_mz_minimum": null,
+   "spectra_mz_maximum": null,
+   "Sp_minimum": 0,
+   "dSp_maximum": 1,
+   "visualize_decoys": false,
+   "modified_only": false,
+   "rank_maximum": 99,
+   "unique_positions_only": false,
+   "remove_redundant_SeqX_matches": false,
+   "dSp2_minimum": 0,
+   "MS1_ppm_cutoff": null
+  }
+ }
+}
